@@ -17,6 +17,6 @@ def create(request):
         Post.objects.create(title=title, content=content)
         return redirect('main')
 
-def show(request):
+def show(request,id):
     post=Post.objects.get(pk=id)
     return render(request, 'posts/show.html', {'post': post})
