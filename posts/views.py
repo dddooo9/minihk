@@ -29,3 +29,8 @@ def update(request, id):
             post.save()
             return redirect('posts:show', post.id)
     return render(request, 'posts/update.html', {'post' : post})
+
+def delete(request, id):
+    post=get_object_or_404(Post, pk=id)
+    post.delete()
+    return redirect("posts:main")
