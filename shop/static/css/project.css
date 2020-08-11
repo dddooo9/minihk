@@ -1,3 +1,8 @@
-h1{
+h1,h2,h3,p,label{
     color:orage;
+    font-family: 'Nanum Pen Script', cursive;
+}
+
+.card-title, .card-text, .navbar-brand, .nav-link{
+    font-family: 'Nanum Pen Script', cursive;
 }

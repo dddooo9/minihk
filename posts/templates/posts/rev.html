@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>
+        리뷰 작성
+    </h1>
+    <form action="{% url 'posts:rev' %}" method="POST2">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>상품명</label>
+            <input type="text" class="form-control" name="product">
+        </div>
+        <div class="form-group">
+            <label>평점</label>
+            <input type="text" class="form-control" name="grade">
+        </div>
+        <div class="form-group">
+            <label>내용</label>
+            <textarea class="form-control" name="content"></textarea>
+        </div>
+        <input type="submit" value="리뷰 작성" class="btn btn-outline-primary">
+    </form>
+    </div>
+{% endblock %}

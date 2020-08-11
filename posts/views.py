@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Product, Review
 
 # Create your views here.
 
 def main(request):
-    posts=Post.objects.all()
+    posts=Product.objects.all()
     return render(request, 'posts/main.html', {'posts':posts})
 
 def new(request):
@@ -14,23 +14,45 @@ def create(request):
     if request.method == "POST":
         title = request.POST.get('title')
         content = request.POST.get('content')
-        Post.objects.create(title=title, content=content)
+        price = request.POST.get('price')
+        inventory=request.POST.get('inventory')
+        image=request.FILES.get('image')
+        user=request.user
+        Product.objects.create(title=title, content=content, image=image, user=user, price=price, inventory=inventory)
         return redirect('main')
 
 def show(request,id):
-    post=Post.objects.get(pk=id)
-    return render(request, 'posts/show.html', {'post': post})
+    post=Product.objects.get(pk=id)
+    post.view_count += 1
+    post.save()
+#    reviews = Review.objects.all()
+    return render(request, 'posts/show.html', {'post': post}) #, 'reviews':reviews})
 
 def update(request, id):
-    post=get_object_or_404(Post, pk=id)
+    post=get_object_or_404(Product, pk=id)
     if request.method=="POST":
             post.title=request.POST['title']
             post.content=request.POST['content']
+            post.price=request.POST['price']
+            post.inventory=request.POST['inventory']
+            post.image=request.FILES.get('image')
             post.save()
             return redirect('posts:show', post.id)
     return render(request, 'posts/update.html', {'post' : post})
 
 def delete(request, id):
-    post=get_object_or_404(Post, pk=id)
+    post=get_object_or_404(Product, pk=id)
     post.delete()
     return redirect("posts:main")
+'''
+def new_review(request):
+    return render(request, 'posts/rev.html')
+
+def rev(request):
+    if request.method == 'POST':
+        user = request.POST.get('user')
+        content = request.POST.get('content')
+        Review.objects.create(user = user, content = content)
+    return redirect('main')
+
+'''
